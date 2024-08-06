@@ -1,5 +1,7 @@
 program GeneralChessPuzzles;
 
+{$mode ObjFPC}{$H+}
+
 uses SysUtils, UBaseChess, USolitaire, USolo, UMelee, UBinaryChess;
 
 const

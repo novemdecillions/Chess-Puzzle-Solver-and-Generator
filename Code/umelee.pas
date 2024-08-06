@@ -426,12 +426,6 @@ end;
 
 function TMelee.GeneratePuzzle(Size: Integer; ShowSteps: Boolean): String;
 const
-  SmallSize:  Byte = 16;
-  MiddleSize: Byte = 36;
-  FullSize:   Byte = 64;
-  SmallBoard:  QWord = QWord(66229406269440);
-  MiddleBoard: QWord = QWord(35604928818740736);
-  FullBoard:   Qword = Qword(18446744073709551615);
   Pawn: Integer = Ord(EBoards.EPawns);
   King: Integer = Ord(EBoards.EKings);
 var
@@ -545,6 +539,7 @@ begin
         begin
           if not CheckUniqueness(Boards, not AddWhitePiece) then
           begin
+            //if ShowSteps then WriteLn('Step puzzle ', MakeFen(Boards), ' wasn''t unique');
             ResetBoard := True;
             Break;
           end;

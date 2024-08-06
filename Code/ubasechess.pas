@@ -49,6 +49,13 @@ type
         NotHCol: QWord = QWord(9187201950435737471);
         Not8thRow: QWord = QWord(18446744073709551360); //not a8, b8...
         Not1stRow:  QWord = QWord(72057594037927935);
+        // Puzzle generation
+        SmallSize:  Byte = 16;
+        MiddleSize: Byte = 36;
+        FullSize:   Byte = 64;
+        SmallBoard:  QWord = QWord(66229406269440);
+        MiddleBoard: QWord = QWord(35604928818740736);
+        FullBoard:   Qword = Qword(18446744073709551615);
       var
         FBoards:            TBoards;
         FPieceAmounts:      Integer;

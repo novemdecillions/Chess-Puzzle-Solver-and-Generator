@@ -525,12 +525,6 @@ end;
 
 function TBinaryChess.GeneratePuzzle(Size: Integer; ShowSteps: Boolean): String;
 const
-  SmallSize:  Byte = 16;
-  MiddleSize: Byte = 36;
-  FullSize:   Byte = 64;
-  SmallBoard:  QWord = QWord(66229406269440);
-  MiddleBoard: QWord = QWord(35604928818740736);
-  FullBoard:   Qword = Qword(18446744073709551615);
   Pawn: Integer = Ord(EBoards.EPawns);
   King: Integer = Ord(EBoards.EKings);
 var
@@ -755,6 +749,7 @@ begin
   for i := High(Unsolvables) downto 0 do // Current positions are more similar at the end
   begin
     if  (Boards[EBoards.EFull] = Unsolvables[i, 0])
+    and (Boards[EBoards.EBlack] = Unsolvables[i, 1])
     and (Boards[EBoards.EPawns] = Unsolvables[i, 2])
     and (Boards[EBoards.EKnights] = Unsolvables[i, 3])
     and (Boards[EBoards.EBishops] = Unsolvables[i, 4])
