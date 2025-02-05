@@ -164,6 +164,23 @@ begin
 end;
 
 procedure GeneratePuzzles(PuzzleType: Integer; ShowSteps: Boolean);
+type
+  TStringArray = Array of String;
+
+  function IsUnique(NewFen: String; var AllFens: TStringArray): Boolean;
+  var
+    OldFen: String;
+  begin
+    for OldFen in AllFens do
+    begin
+      if OldFen = NewFen then
+      begin
+        Exit(False);
+      end;
+    end;
+    Exit(True);
+  end;
+
 var
   Time: TDateTime;
   Solitaire: TSolitaire;
@@ -171,7 +188,8 @@ var
   Melee: TMelee;
   Binary: TBinaryChess;
   Size, Amount, i: Integer;
-  Fen, AllFens: String;
+  Fen: String;
+  AllFens: TStringArray;
   SaveInFile: Boolean;
   s: String;
   MyFile: TextFile;
@@ -211,11 +229,12 @@ begin
     Solo := TSolo.Create;
     Melee := TMelee.Create;
     Binary := TBinaryChess.Create;
-    AllFens := '';
+    AllFens := Nil;
     WriteLn('Generating puzzles...');
     Time := Now;
     for i := 1 to Amount do
     begin
+      repeat
       case PuzzleType of
       1:
         Fen := Solitaire.GeneratePuzzle(Size, ShowSteps);
@@ -226,9 +245,10 @@ begin
       4:
         Fen := Binary.GeneratePuzzle(Size, ShowSteps);
       end;
-      WriteLn('Puzzle ', Fen, ' generated');
-      AllFens += Fen + LineEnding;
-
+      until(IsUnique(Fen, AllFens));
+      WriteLn('Puzzle ', Fen, ' generated (', i, '/', Amount, ')');
+      SetLength(AllFens, Length(AllFens)+1);
+      AllFens[High(AllFens)] := Fen;
       if SaveInFile then
       begin
         AssignFile(MyFile, FileName);
@@ -242,7 +262,8 @@ begin
     end;
     Time := Now - Time;
     WriteLn('All Puzzles:');
-    WriteLn(AllFens, LineEnding);
+    for Fen in AllFens do
+      WriteLn(Fen);
     WriteLn('Time needed: ', FormatDateTime('h:nn:ss:zzz', time), LineEnding);
   finally
     Solitaire.Free;
